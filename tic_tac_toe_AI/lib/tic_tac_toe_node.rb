@@ -33,6 +33,7 @@ class TicTacToeNode
     childs
   end
 
+  #This will return mark of current mover to be used when creating new nodes
   def switch_mark
     if next_mover_mark == :x
       return :o
@@ -42,12 +43,16 @@ class TicTacToeNode
   end
 
   def losing_node?(evaluator)
+    #If game is complete and the opponent has won and it is not a tie,
+    #return true because this is a losing node, otherwise return false
     if board.over? and board.winner != evaluator && !board.tied?
       return true 
     elsif board.over?
       return false
     end
 
+    #Recursively check to see if all children from the current node result in
+    #a loss or if only one results in a loss (computer will target this one)
     children.all? {|child| child.losing_node?(evaluator)} ||
       children.one? {|child| child.losing_node?(evaluator)}
     
