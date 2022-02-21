@@ -17,12 +17,10 @@ class Board
   end
 
   def valid_move?(start_pos)
-    if start_pos < 0 || start_pos > 12 || start_pos == 6
+    if start_pos < 0 || start_pos > 12
       raise "Invalid starting cup"
     elsif cups[start_pos].length == 0
       raise "Starting cup is empty"
-    else
-      return true
     end
 
   end
@@ -60,12 +58,12 @@ class Board
 
   def next_turn(ending_cup_idx)
     # helper method to determine whether #make_move returns :switch, :prompt, or ending_cup_idx
-    if cups[ending_cup_idx].length == 1 && ending_cup_idx != 6 && ending_cup_idx != 13
-      return :switch 
-    elsif cups[ending_cup_idx].length > 1
-      return ending_cup_idx
-    else
+    if ending_cup_idx == 6 || ending_cup_idx == 13
       return :prompt
+    elsif cups[ending_cup_idx].length == 1
+      return :switch 
+    else
+      return ending_cup_idx
     end
   end
 
