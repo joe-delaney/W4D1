@@ -39,19 +39,22 @@ class TicTacToeNode
     end
   end
 
+  require "byebug"
   def losing_node?(evaluator)
     #If game is complete and the opponent has won and it is not a tie,
     #return true because this is a losing node, otherwise return false
+    debugger
     if board.over? && board.winner != evaluator && !board.tied?
       return true 
     elsif board.over?
       return false
     end
-
+    debugger
     #Recursively check to see if all children from the current node result in
     #a loss or if only one results in a loss (computer will target this one)
-    children.all? {|child| child.losing_node?(evaluator)} ||
-      children.one? {|child| child.losing_node?(evaluator)}
+    children.one? {|child| child.losing_node?(evaluator)} ||
+      children.all? {|child| child.losing_node?(evaluator)}
+      
   end
 
   def winning_node?(evaluator)

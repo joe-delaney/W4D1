@@ -126,7 +126,9 @@ class TicTacToe
     end
   end
 
+  require "byebug"
   def play_turn
+    debugger
     loop do
       current_player = self.players[self.turn]
       pos = current_player.move(self, self.turn)
