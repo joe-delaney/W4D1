@@ -7,13 +7,10 @@ class TicTacToeNode
     @prev_move_pos = prev_move_pos
   end
 
-  def winning_node?(evaluator)
-  end
-
   # This method generates an array of all moves that can be made after
   # the current move.
   def children
-    #Arrayy to store all possible moves
+    #Array to store all possible moves
     childs = []
     #Go through each position on board
     (0...board.rows.length).each do |row|
@@ -45,7 +42,7 @@ class TicTacToeNode
   def losing_node?(evaluator)
     #If game is complete and the opponent has won and it is not a tie,
     #return true because this is a losing node, otherwise return false
-    if board.over? and board.winner != evaluator && !board.tied?
+    if board.over? && board.winner != evaluator && !board.tied?
       return true 
     elsif board.over?
       return false
@@ -55,7 +52,20 @@ class TicTacToeNode
     #a loss or if only one results in a loss (computer will target this one)
     children.all? {|child| child.losing_node?(evaluator)} ||
       children.one? {|child| child.losing_node?(evaluator)}
-    
+  end
+
+  def winning_node?(evaluator)
+    #If game is complete and winner is us, return true
+    if board.over? && board.winner == evaluator
+      return true 
+    elsif board.over?
+      return false 
+    end
+
+    #Recursively check to see if all children of the current node are winners for
+    #us or we only have one possible winner from the current node
+    children.all? {|child| child.winning_node?(evaluator)} ||
+      children.one? {|child| child.winning_node?(evaluator)}
   end
 
   attr_reader :board, :next_mover_mark, :prev_move_pos
