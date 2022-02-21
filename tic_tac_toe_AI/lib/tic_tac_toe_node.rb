@@ -7,26 +7,29 @@ class TicTacToeNode
     @prev_move_pos = prev_move_pos
   end
 
-  def losing_node?(evaluator)
-  end
-
   def winning_node?(evaluator)
   end
 
   # This method generates an array of all moves that can be made after
   # the current move.
   def children
+    #Arrayy to store all possible moves
     childs = []
+    #Go through each position on board
     (0...board.rows.length).each do |row|
       (0...board.rows.length).each do |col|
         pos = [row, col]
+        #If board position is emtpy, it represents a possible move
         if board.empty?(pos)
+          #create a duplicate of the board, set it equal to next mover mark, and
+          #add it to the array of possible moves for this node
           temp = board.dup
           temp[pos] = next_mover_mark
           childs << TicTacToeNode.new(temp, switch_mark, pos)
         end
       end
     end
+    #return possible moves
     childs
   end
 
