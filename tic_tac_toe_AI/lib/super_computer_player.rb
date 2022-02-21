@@ -3,8 +3,6 @@ require_relative 'tic_tac_toe_node'
 class SuperComputerPlayer < ComputerPlayer
   require "byebug"
   def move(game, mark)
-    debugger
-    #next_mark = mark == :x ? :o : :x
     current_node = TicTacToeNode.new(game.board, mark)
     moves = current_node.children
     moves.each do |move|

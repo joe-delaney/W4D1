@@ -43,17 +43,19 @@ class TicTacToeNode
   def losing_node?(evaluator)
     #If game is complete and the opponent has won and it is not a tie,
     #return true because this is a losing node, otherwise return false
-    debugger
     if board.over? && board.winner != evaluator && !board.tied?
       return true 
     elsif board.over?
       return false
     end
-    debugger
     #Recursively check to see if all children from the current node result in
     #a loss or if only one results in a loss (computer will target this one)
-    children.one? {|child| child.losing_node?(evaluator)} ||
+    
+    if evaluator == next_mover_mark
       children.all? {|child| child.losing_node?(evaluator)}
+    else
+     children.any? {|child| child.losing_node?(evaluator)}
+    end
       
   end
 
@@ -67,8 +69,11 @@ class TicTacToeNode
 
     #Recursively check to see if all children of the current node are winners for
     #us or we only have one possible winner from the current node
-    children.all? {|child| child.winning_node?(evaluator)} ||
-      children.one? {|child| child.winning_node?(evaluator)}
+    if evaluator != next_mover_mark
+      children.all? {|child| child.winning_node?(evaluator)}
+    else
+      children.any? {|child| child.winning_node?(evaluator)}
+    end
   end
 
   attr_reader :board, :next_mover_mark, :prev_move_pos
